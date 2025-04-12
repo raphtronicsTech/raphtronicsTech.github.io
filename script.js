@@ -198,9 +198,14 @@ function fetchMultiParameterData() {
       const labels = []; // For timestamps
       // Create an object to hold arrays for each parameter column (starting from index 1)
       const parameters = {};
+      const PM_parameters = {};
       for (let col = 18; col < header.length; col++) {
+        if(col < 21)
         parameters[col] = [];
+      if(col > 20)
+        PM_parameters[col] = [];
       }
+
       
       // Loop over each data row (skip header)
       for (let i = 1; i < rows.length; i++) {
@@ -209,7 +214,11 @@ function fetchMultiParameterData() {
         labels.push(rows[i][0]); // First column is the timestamp
         for (let col = 18; col < header.length; col++) {
           // Parse the value as a float
-          parameters[col].push(parseFloat(rows[i][col]));
+          
+          if(col < 21)
+            parameters[col].push(parseFloat(rows[i][col]));
+          if(col > 20)
+            PM_parameters[col].push(parseFloat(rows[i][col]));
         }
       }
       
@@ -218,24 +227,37 @@ function fetchMultiParameterData() {
       // You can adjust colors as needed.
       const colors = ["red", "blue", "green", "purple", "orange", "brown"];
       const datasets = [];
+      const PM_datasets = [];
       let colorIndex = 0;
       for (let col = 18; col < header.length; col++) {
-        datasets.push({
-          label: header[col], // e.g., "ParameterA"
-          data: parameters[col],
-          borderColor: colors[colorIndex % colors.length],
-          borderWidth: 2,
-          fill: false,
-        });
-        colorIndex++;
+        if(col < 21) {
+          datasets.push({
+            label: header[col], // e.g., "ParameterA"
+            data: parameters[col],
+            borderColor: colors[colorIndex % colors.length],
+            borderWidth: 2,
+            fill: false,
+          });
+          colorIndex++;
+        }
+        else if(col > 20) {
+          PM_datasets.push({
+            label: header[col], // e.g., "ParameterA"
+            data: PM_parameters[col],
+            borderColor: colors[colorIndex % colors.length],
+            borderWidth: 2,
+            fill: false,
+          });
+          colorIndex++;
+        }
       }
       
       // Now create the multi-parameter chart on a canvas with an id "multiParamChart"
       createMultiParameterChart("AQI_CHART", "AQI", labels, datasets);
+      createMultiParameterChart("PM_AQI_CHART", "PM_AQI", labels, PM_datasets);
     })
     .catch(error => console.error("Error fetching multi-parameter data:", error));
 }
-
 function createMultiParameterChart(canvasId, chartTitle, labels, datasets) {
   const canvasElem = document.getElementById(canvasId);
   if (!canvasElem) return;
