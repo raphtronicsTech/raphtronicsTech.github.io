@@ -183,6 +183,7 @@ function createOrUpdateChart(canvasId, label, labels, dataValues, color, yAxisPa
             },
           },
           y: {
+		  min: 0,
             title: {
               display: true,
               text: yAxisParameter,
@@ -309,6 +310,7 @@ function createMultiParameterChart(canvasId, chartTitle, labels, datasets) {
           }
         },
         y: {
+		min: 0,
           title: {
             display: true,
             text: "Value"
