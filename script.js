@@ -39,10 +39,24 @@ function fetchLiveData() {
   fetch(SHEET_URL)
     .then((response) => response.text())
     .then((data) => {
-      console.log("Raw CSV data:", data); // Debug log
       const rows = data.split("\n").map((row) => row.split(","));
-      console.log("Parsed rows:", rows); // Debug log
-      updateLiveCharts(rows);
+      if (rows.length < 2) return;
+
+      // Extract the latest date from the data (skip header)
+      const dateList = rows
+        .slice(1)
+        .map((row) => row[0]?.split(" ")[0]) // extract only the date part
+        .filter(Boolean);
+
+      const latestDate = dateList[dateList.length - 1]; // Get the most recent date
+
+      // Filter the rows to only include those from the latest date
+      const todayRows = rows.filter((row, index) => {
+        if (index === 0) return true; // keep header
+        return row[0]?.startsWith(latestDate);
+      });
+
+      updateLiveCharts(todayRows);
     })
     .catch((error) => console.error("Error fetching live data:", error));
 }
@@ -188,17 +202,24 @@ function createOrUpdateChart(canvasId, label, labels, dataValues, color, yAxisPa
 function fetchMultiParameterData() {
   fetch(SHEET_URL)
     .then(response => response.text())
-    .then(data => {
-      // Parse CSV data into rows (each row is an array of values)
+    .then((data) => {
       const rows = data.split("\n").map(row => row.split(","));
-      if (rows.length < 2) return; // Ensure there's at least a header and one row of data
-      
-      // Assume first row is the header: ["Timestamp", "ParameterA", "ParameterB", "ParameterC", ...]
-      const header = rows[0];
-      const labels = []; // For timestamps
-      // Create an object to hold arrays for each parameter column (starting from index 1)
+      if (rows.length < 2) return;
+
+      // Get the most recent date
+      const dateList = rows.slice(1).map(row => row[0]?.split(" ")[0]).filter(Boolean);
+      const latestDate = dateList[dateList.length - 1];
+
+      // Filter only rows from latest date
+      const todayRows = rows.filter((row, index) => {
+        if (index === 0) return true;
+        return row[0]?.startsWith(latestDate);
+      });
+
+      const header = todayRows[0];
+      const labels = [];
       const parameters = {};
-      const PM_parameters = {};
+      PM_parameters = {};
       for (let col = 18; col < header.length; col++) {
         if(col < 21)
         parameters[col] = [];
@@ -206,26 +227,19 @@ function fetchMultiParameterData() {
         PM_parameters[col] = [];
       }
 
-      
-      // Loop over each data row (skip header)
-      for (let i = 1; i < rows.length; i++) {
-        // Ensure row has the correct number of columns
-        if (rows[i].length < header.length) continue;
-        labels.push(rows[i][0]); // First column is the timestamp
+      for (let i = 1; i < todayRows.length; i++) {
+        if (todayRows[i].length < header.length) continue;
+        labels.push(todayRows[i][0]);
         for (let col = 18; col < header.length; col++) {
-          // Parse the value as a float
-          
-          if(col < 21)
-            parameters[col].push(parseFloat(rows[i][col]));
+          //parameters[col].push(parseFloat(todayRows[i][col]));
+		   if(col < 21)
+            parameters[col].push(parseFloat(todayRows[i][col]));
           if(col > 20)
-            PM_parameters[col].push(parseFloat(rows[i][col]));
+            PM_parameters[col].push(parseFloat(todayRows[i][col]));
         }
       }
-      
-      // Prepare dataset objects for each parameter column.
-      // We'll use the header values as labels for each dataset.
-      // You can adjust colors as needed.
-      const colors = ["red", "blue", "green", "purple", "orange", "brown"];
+
+            const colors = ["red", "blue", "green", "purple", "orange", "brown"];
       const datasets = [];
       const PM_datasets = [];
       let colorIndex = 0;
@@ -252,12 +266,13 @@ function fetchMultiParameterData() {
         }
       }
       
-      // Now create the multi-parameter chart on a canvas with an id "multiParamChart"
+
       createMultiParameterChart("AQI_CHART", "AQI", labels, datasets);
       createMultiParameterChart("PM_AQI_CHART", "PM_AQI", labels, PM_datasets);
     })
     .catch(error => console.error("Error fetching multi-parameter data:", error));
 }
+
 function createMultiParameterChart(canvasId, chartTitle, labels, datasets) {
   const canvasElem = document.getElementById(canvasId);
   if (!canvasElem) return;
