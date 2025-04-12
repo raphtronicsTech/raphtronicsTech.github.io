@@ -1,0 +1,108 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+  
+  /* Default Light Theme Variables */
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --nav-bg: #f8f8f8;
+    --nav-text: #000000;
+  }
+  
+  /* Dark Theme Variables */
+  [data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --nav-bg: #1e1e1e;
+    --nav-text: #ffffff;
+  }
+  
+  /* Navigation Bar */
+  nav {
+    background-color: var(--nav-bg);
+    padding: 10px 0;
+    text-align: center;
+  }
+  
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  nav ul li {
+    display: inline;
+    margin: 0 15px;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: var(--nav-text);
+    font-size: 18px;
+  }
+  
+  /* Theme Toggle Button */
+  #themeToggle {
+    padding: 8px 12px;
+    margin-left: 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Sections */
+  section {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Chart Container */
+  .chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* align-items: flex-start; */
+    max-height: 500px;
+    max-width:500px ;
+  }
+  
+  canvas {
+    width: 45%;
+    max-width: 400x;
+    height: 400px;
+    margin: 20px;
+    background-color: #f0f0f0; 
+  }
+  
+  /* Buttons and Links */
+  button {
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  a {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  a:hover {
+    background-color: #218838;
+  }
+  

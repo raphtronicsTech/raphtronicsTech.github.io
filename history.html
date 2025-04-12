@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Air Quality Monitoring - History</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Load Chart.js for graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="live-data.html">Live Data</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="download.html">Download</a></li>
+      <li><button id="themeToggle">Toggle Theme</button></li>
+    </ul>
+    
+  </nav>
+  <section class="history">
+    <h2>Historical Data</h2>
+    <label for="startDate">Start Date: 
+      <input type="date" id="startDate" />
+    </label>
+    <label for="endDate">End Date: 
+      <input type="date" id="endDate" />
+    </label>
+    <button id="viewHistoryBtn">View Data</button>
+    <canvas id="historyChart"></canvas>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>
