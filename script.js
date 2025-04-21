@@ -95,12 +95,7 @@ function updateLiveCharts(data) {
   // Skip header row (assumed first row)
   for (let i = 1; i < data.length; i++) {
     if (data[i].length < 6) continue;
-    labels.push(data[i][0]); // Timestamp
-    // mq4Values.push(parseFloat(data[i][1]));
-    // mq131Values.push(parseFloat(data[i][2]));
-    // mq7Values.push(parseFloat(data[i][3]));
-    // mq135Values.push(parseFloat(data[i][4]));
-    // mics6814Values.push(parseFloat(data[i][5]));
+    labels.push(data[i][1]); // Timestamp
     PM10_VALUES.push(parseFloat(data[i][6]));
     PM2_5_VALUES.push(parseFloat(data[i][5]));
     O3_VALUES.push(parseFloat(data[i][7]));
@@ -230,7 +225,7 @@ function fetchMultiParameterData() {
 
       for (let i = 1; i < todayRows.length; i++) {
         if (todayRows[i].length < header.length) continue;
-        labels.push(todayRows[i][0]);
+        labels.push(todayRows[i][1]);
         for (let col = 18; col < header.length; col++) {
           //parameters[col].push(parseFloat(todayRows[i][col]));
 		   if(col < 21)
