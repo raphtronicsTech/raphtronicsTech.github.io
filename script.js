@@ -235,31 +235,63 @@ function fetchMultiParameterData() {
             PM_parameters[col].push(parseFloat(todayRows[i][col]));
         }
       }
-      tLabel.push(todayRows[1][0]);
-      const colors = ["red", "blue", "green", "purple", "orange", "brown"];
+	    tLabel.push(todayRows[1][0]);
+            const colors = ["red", "blue", "green", "purple", "orange", "brown"];
       const datasets = [];
       const PM_datasets = [];
       let colorIndex = 0;
       for (let col = 18; col < header.length; col++) {
-        if(col < 21) {
+        switch(col) {
+          case 18:
           datasets.push({
-            label: header[col], // e.g., "ParameterA"
+            label: "AQI (O₃)", // e.g., "ParameterA"
             data: parameters[col],
             borderColor: colors[colorIndex % colors.length],
             borderWidth: 2,
             fill: false,
           });
           colorIndex++;
-        }
-        else if(col > 20) {
+          break;
+          case 19:
+            datasets.push({
+              label: "AQI (CO)", // e.g., "ParameterA"
+              data: parameters[col],
+              borderColor: colors[colorIndex % colors.length],
+              borderWidth: 2,
+              fill: false,
+            });
+            colorIndex++;
+          break;
+          case 20:
+            datasets.push({
+              label: "AQI (NO)", // e.g., "ParameterA"
+              data: parameters[col],
+              borderColor: colors[colorIndex % colors.length],
+              borderWidth: 2,
+              fill: false,
+            });
+            colorIndex++;
+          break;
+          case 21:
           PM_datasets.push({
-            label: header[col], // e.g., "ParameterA"
+            label: "PM₂.₅", // e.g., "ParameterA"
             data: PM_parameters[col],
             borderColor: colors[colorIndex % colors.length],
             borderWidth: 2,
             fill: false,
           });
           colorIndex++;
+          break;
+          case 22:
+            PM_datasets.push({
+            label: "PM₁₀", // e.g., "ParameterA"
+            data: PM_parameters[col],
+            borderColor: colors[colorIndex % colors.length],
+            borderWidth: 2,
+            fill: false,
+          });
+          colorIndex++;
+            break;
         }
       }
       
