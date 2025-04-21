@@ -172,7 +172,7 @@ function createOrUpdateChart(canvasId, label, labels, dataValues, color, yAxisPa
           x: {
             title: {
               display: true,
-              text: timeLabel,
+              text: ("Time" + "\t" + timeLabel),
             },
             grid: {
               color: "#ccc", // Light grid lines for visibility
