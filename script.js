@@ -206,7 +206,7 @@ function fetchMultiParameterData() {
       // Get the most recent date
       const dateList = rows.slice(1).map(row => row[0]?.split(" ")[0]).filter(Boolean);
       const latestDate = dateList[dateList.length - 1];
-
+      const tLabel = [];
       // Filter only rows from latest date
       const todayRows = rows.filter((row, index) => {
         if (index === 0) return true;
@@ -302,7 +302,7 @@ function createMultiParameterChart(canvasId, chartTitle, labels, datasets, timeL
         x: {
           title: {
             display: true,
-            text: timeLabel
+            text: ("Time" + "\t" + "(" + timeLabel + ")"),
           }
         },
         y: {
