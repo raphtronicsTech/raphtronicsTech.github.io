@@ -96,7 +96,7 @@ function updateLiveCharts(data) {
   for (let i = 1; i < data.length; i++) {
     if (data[i].length < 6) continue;
     labels.push(data[i][1]); // Timestamp
-    tLabels.push(data[i][0]);	//Date
+    
     PM10_VALUES.push(parseFloat(data[i][6]));
     PM2_5_VALUES.push(parseFloat(data[i][5]));
     O3_VALUES.push(parseFloat(data[i][7]));
@@ -117,7 +117,7 @@ function updateLiveCharts(data) {
     AQI_PM2_5_VALUES.push(parseFloat(data[i][21]));
     AQI_PM10_VALUES.push(parseFloat(data[i][22]));
   }
-
+  tLabels.push(data[1][0]);	//Date
   console.log("Labels:", labels);
   console.log("VOC values:", VOC_VALUES);
 
@@ -235,7 +235,7 @@ function fetchMultiParameterData() {
             PM_parameters[col].push(parseFloat(todayRows[i][col]));
         }
       }
-
+	    tLabel.push(todayRows[1][0]);
             const colors = ["red", "blue", "green", "purple", "orange", "brown"];
       const datasets = [];
       const PM_datasets = [];
@@ -264,13 +264,13 @@ function fetchMultiParameterData() {
       }
       
 
-      createMultiParameterChart("AQI_CHART", "AQI", labels, datasets);
-      createMultiParameterChart("PM_AQI_CHART", "PM_AQI", labels, PM_datasets);
+      createMultiParameterChart("AQI_CHART", "AQI", labels, datasets, tLabel);
+      createMultiParameterChart("PM_AQI_CHART", "PM_AQI", labels, PM_datasets, tLabel);
     })
     .catch(error => console.error("Error fetching multi-parameter data:", error));
 }
 
-function createMultiParameterChart(canvasId, chartTitle, labels, datasets) {
+function createMultiParameterChart(canvasId, chartTitle, labels, datasets, timeLabel) {
   const canvasElem = document.getElementById(canvasId);
   if (!canvasElem) return;
   const ctx = canvasElem.getContext("2d");
@@ -302,7 +302,7 @@ function createMultiParameterChart(canvasId, chartTitle, labels, datasets) {
         x: {
           title: {
             display: true,
-            text: "Time"
+            text: timeLabel
           }
         },
         y: {
