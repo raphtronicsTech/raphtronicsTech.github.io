@@ -67,7 +67,7 @@ function updateLiveCharts(data) {
     return;
   }
   const labels = [];
-
+  const tLabels = [];
   const PM10_VALUES = [];
   const PM2_5_VALUES = [];
   const O3_VALUES = [];
@@ -96,6 +96,7 @@ function updateLiveCharts(data) {
   for (let i = 1; i < data.length; i++) {
     if (data[i].length < 6) continue;
     labels.push(data[i][1]); // Timestamp
+    tLabels.push(data[i][0]);	//Date
     PM10_VALUES.push(parseFloat(data[i][6]));
     PM2_5_VALUES.push(parseFloat(data[i][5]));
     O3_VALUES.push(parseFloat(data[i][7]));
@@ -120,23 +121,23 @@ function updateLiveCharts(data) {
   console.log("Labels:", labels);
   console.log("VOC values:", VOC_VALUES);
 
-  createOrUpdateChart("PM2_5_CHART", "PM₂.₅", labels, PM2_5_VALUES, "red", "µg/m³");
-  createOrUpdateChart("PM10_CHART", "PM₁₀", labels, PM10_VALUES, "blue", "µg/m³");
-  createOrUpdateChart("O3_CHART", "OZONE (O₃)", labels, O3_VALUES, "green", "ppm");
-  createOrUpdateChart("CO_CHART", "CARBON MONOXIDE (CO)", labels, CO_VALUES, "purple", "ppm");
-  createOrUpdateChart("CO2_CHART", "CARBON DIOXIDE (CO₂)", labels, CO2_VALUES, "orange", "ppm");
-  createOrUpdateChart("CH4_CHART", "METHANE (CH₄)", labels, CH4_VALUES, "red", "ppm");
-  createOrUpdateChart("NH3_CHART", "AMMONIA (NH₃)", labels, NH3_VALUES, "blue", "ppm");
-  createOrUpdateChart("VOC_CHART", "VOC", labels, VOC_VALUES, "green", "ppm");
-  createOrUpdateChart("NO2_CHART", "NITROGEN DI OXIDE (NO₂)", labels, NO2_VALUES, "purple", "ppm");
+  createOrUpdateChart("PM2_5_CHART", "PM₂.₅", labels, PM2_5_VALUES, "red", "µg/m³", tLabels);
+  createOrUpdateChart("PM10_CHART", "PM₁₀", labels, PM10_VALUES, "blue", "µg/m³", tLabels);
+  createOrUpdateChart("O3_CHART", "OZONE (O₃)", labels, O3_VALUES, "green", "ppm", tLabels);
+  createOrUpdateChart("CO_CHART", "CARBON MONOXIDE (CO)", labels, CO_VALUES, "purple", "ppm", tLabels);
+  createOrUpdateChart("CO2_CHART", "CARBON DIOXIDE (CO₂)", labels, CO2_VALUES, "orange", "ppm", tLabels);
+  createOrUpdateChart("CH4_CHART", "METHANE (CH₄)", labels, CH4_VALUES, "red", "ppm", tLabels);
+  createOrUpdateChart("NH3_CHART", "AMMONIA (NH₃)", labels, NH3_VALUES, "blue", "ppm", tLabels);
+  createOrUpdateChart("VOC_CHART", "VOC", labels, VOC_VALUES, "green", "ppm", tLabels);
+  createOrUpdateChart("NO2_CHART", "NITROGEN DI OXIDE (NO₂)", labels, NO2_VALUES, "purple", "ppm", tLabels);
 
-  createOrUpdateChart("TEMP_CHART", "TEMPERATURE", labels, TEMPERATURE_VALUES, "orange", "°C");
-  createOrUpdateChart("PRESSURE_CHART", "PRESSURE", labels, PRESSURE_VALUES, "red", "Pa");
-  createOrUpdateChart("HUMID_CHART", "HUMIDITY", labels, HUMIDITY_VALUES, "blue", "%");
-  createOrUpdateChart("WIND_CHART", "WINDSPEED", labels, WINDSPEED_VALUES, "green", "m/s");
+  createOrUpdateChart("TEMP_CHART", "TEMPERATURE", labels, TEMPERATURE_VALUES, "orange", "°C", tLabels);
+  createOrUpdateChart("PRESSURE_CHART", "PRESSURE", labels, PRESSURE_VALUES, "red", "Pa", tLabels);
+  createOrUpdateChart("HUMID_CHART", "HUMIDITY", labels, HUMIDITY_VALUES, "blue", "%", tLabels);
+  createOrUpdateChart("WIND_CHART", "WINDSPEED", labels, WINDSPEED_VALUES, "green", "m/s", tLabels);
 }
 
-function createOrUpdateChart(canvasId, label, labels, dataValues, color, yAxisParameter) {
+function createOrUpdateChart(canvasId, label, labels, dataValues, color, yAxisParameter, timeLabel) {
   const canvasElem = document.getElementById(canvasId);
   if (!canvasElem) return; // Exit if the canvas is missing
 
@@ -171,7 +172,7 @@ function createOrUpdateChart(canvasId, label, labels, dataValues, color, yAxisPa
           x: {
             title: {
               display: true,
-              text: "Time",
+              text: ("Time" + "\t" + timeLabel),
             },
             grid: {
               color: "#ccc", // Light grid lines for visibility
