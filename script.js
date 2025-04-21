@@ -235,8 +235,8 @@ function fetchMultiParameterData() {
             PM_parameters[col].push(parseFloat(todayRows[i][col]));
         }
       }
-	    tLabel.push(todayRows[1][0]);
-            const colors = ["red", "blue", "green", "purple", "orange", "brown"];
+      tLabel.push(todayRows[1][0]);
+      const colors = ["red", "blue", "green", "purple", "orange", "brown"];
       const datasets = [];
       const PM_datasets = [];
       let colorIndex = 0;
