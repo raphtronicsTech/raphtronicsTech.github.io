@@ -172,7 +172,7 @@ function createOrUpdateChart(canvasId, label, labels, dataValues, color, yAxisPa
           x: {
             title: {
               display: true,
-              text: ("Time" + "\t" + "(" + timeLabel + ")"),
+              text: ("Time/Date" + "\t" + "(" + timeLabel + ")"),
             },
             grid: {
               color: "#ccc", // Light grid lines for visibility
@@ -334,7 +334,7 @@ function createMultiParameterChart(canvasId, chartTitle, labels, datasets, timeL
         x: {
           title: {
             display: true,
-            text: ("Time" + "\t" + "(" + timeLabel + ")"),
+            text: ("Time/Date" + "\t" + "(" + timeLabel + ")"),
           }
         },
         y: {
