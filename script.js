@@ -413,5 +413,76 @@ function updateHistoryChart(data) {
   );
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  const dateInput = document.getElementById("dateSelect");
+  const downloadXlsxBtn = document.getElementById("downloadSelectedDateBtn");
+  const downloadPdfBtn = document.getElementById("downloadSelectedDatePdfBtn");
+
+  if (dateInput && downloadXlsxBtn && downloadPdfBtn) {
+    downloadXlsxBtn.addEventListener("click", () => handleDownload('xlsx'));
+    downloadPdfBtn.addEventListener("click", () => handleDownload('pdf'));
+  }
+});
+
+function handleDownload(format) {
+  const selectedDateInput = document.getElementById("dateSelect").value;
+  if (!selectedDateInput) {
+    alert("Please select a date first.");
+    return;
+  }
+
+  // Convert selected date from YYYY-MM-DD to DD/MM/YYYY
+  const [year, month, day] = selectedDateInput.split("-");
+  const formattedDate = `${day}/${month}/${year}`;
+
+  fetch(SHEET_URL)
+    .then(response => response.text())
+    .then(csvData => {
+      const rows = csvData.split("\n").map(row => row.split(","));
+      if (rows.length < 2) {
+        alert("No data found.");
+        return;
+      }
+
+      const header = rows[0];
+      const filteredRows = rows.filter((row, index) => {
+        if (index === 0) return false; // skip header
+        const cellDate = row[0]?.split(" ")[0]; // get date part if timestamp
+        return cellDate === formattedDate;
+      });
+
+      if (filteredRows.length === 0) {
+        alert("No active record for the date.");
+        return;
+      }
+
+      const finalData = [header, ...filteredRows];
+
+      if (format === 'xlsx') {
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(finalData);
+        XLSX.utils.book_append_sheet(wb, ws, "Selected Date");
+        XLSX.writeFile(wb, `AirQuality_${formattedDate.replace(/\//g, "-")}.xlsx`);
+      } else if (format === 'pdf') {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let y = 10;
+        finalData.forEach((row) => {
+          doc.text(row.join(", "), 10, y);
+          y += 7;
+          if (y > 280) { // New page after some rows
+            doc.addPage();
+            y = 10;
+          }
+        });
+        doc.save(`AirQuality_${formattedDate.replace(/\//g, "-")}.pdf`);
+      }
+    })
+    .catch(error => {
+      console.error("Error downloading data:", error);
+      alert("An error occurred while downloading.");
+    });
+}
+
 // ---------------------
 // (No PDF generation code is needed now since the download page uses a direct link)
