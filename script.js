@@ -416,7 +416,7 @@ function updateHistoryChart(data) {
 document.addEventListener("DOMContentLoaded", function () {
   const dateInput = document.getElementById("dateSelect");
   const downloadXlsxBtn = document.getElementById("downloadSelectedDateBtn");
-  const downloadPdfBtn = document.getElementById("downloadSelectedDatePdfBtn");
+  // const downloadPdfBtn = document.getElementById("downloadSelectedDatePdfBtn");
 
   if (dateInput && downloadXlsxBtn) {
     downloadXlsxBtn.addEventListener("click", () => handleDownload('xlsx'));
