@@ -444,7 +444,31 @@ function handleDownload(format) {
         return;
       }
 
-      const header = rows[0];
+            const customHeader = [
+  "Date",
+  "Time",
+  "Latitude",
+  "Longitude",
+  "Altitude",
+  "PM₂.₅",
+  "PM₁₀",
+  "O₃",
+  "CO₂",
+  "CO",
+  "CH₄",
+  "NH₃",
+  "VOC",
+  "NO₂",
+  "Temperature",
+  "Pressure",
+  "Humidity",
+  "Wind Speed",
+  "AQI (O₃)",
+  "AQI (CO)",
+  "AQI (NO₂)",
+  "AQI (PM₂.₅)",
+  "AQI (PM₁₀)"
+];
       const filteredRows = rows.filter((row, index) => {
         if (index === 0) return false; // skip header
         const cellDate = row[0]?.split(" ")[0]; // get date part if timestamp
@@ -456,7 +480,7 @@ function handleDownload(format) {
         return;
       }
 
-      const finalData = [header, ...filteredRows];
+      const finalData = [customHeader, ...filteredRows];
 
       if (format === 'xlsx') {
         const wb = XLSX.utils.book_new();
