@@ -18,13 +18,24 @@
     </ul>
     
   </nav>
-  <section class="download">
-    <h2>Download Air Quality Data Report (PDF)</h2>
-    <p>Click the link below to download the latest PDF report.</p>
-    <!-- Replace the href with your published PDF URL -->
+<section class="download">
+  <h2>Download IoT Air Quality Monitoring System Data Report</h2>
 
-    <a id="pdfDownloadLink" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQrGVwwQ5G-LRO3T5xvQL5Gph_UkYGDV3ENDztO16C29mQ4B8FGheqXOswxZR6up5zb1e9Wfgn0ioQo/pub?output=xlsx" target="_blank" download>Download PDF Report</a>
-  </section>
+  <div>
+    <label for="dateSelect">Select Date (DD-MM-YYYY):</label>
+    <input type="date" id="dateSelect" />
+    <button id="downloadSelectedDateBtn">Download Selected Date (XLSX)</button>
+  </div>
+
+  <hr>
+
+  <h3>Download Full Report</h3>
+  <a id="pdfDownloadLink" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQrGVwwQ5G-LRO3T5xvQL5Gph_UkYGDV3ENDztO16C29mQ4B8FGheqXOswxZR6up5zb1e9Wfgn0ioQo/pub?output=xlsx" target="_blank" download>
+    Download Full Report (XLSX)
+  </a>
+</section>
   <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
